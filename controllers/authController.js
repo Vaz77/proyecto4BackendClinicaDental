@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 
 
-// Función para registrar un nuevo usuario
+// Funcion para registrar un nuevo usuario
 authController.register = async (req, res) => {
 try {
     if (req.body.password.length < MIN_PASSWORD_LENGTH) {
@@ -14,7 +14,7 @@ try {
         error: 'Password must be longer than 6 characters',
     });
     }
-
+    // Generar un hash de la contraseña
     const newPassword = bcrypt.hashSync(req.body.password, 6);
 
     const newUser = await User.create({
@@ -29,6 +29,7 @@ try {
     user: newUser,
     });
 } catch (error) {
+    // Capturar y devolver cualquier error ocurrido durante la creacion del usuario
     return res.status(500).json({
     message: 'Something went wrong creating users',
     error: error.message,
@@ -39,9 +40,7 @@ try {
 authController.login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        // const email = req.body.email;
-        // const password = req.body.password;
-
+    // Buscar al usuario en la base de datos por su direccion de correo electronico
         const user = await User.findOne(
             {
                 where: {
@@ -49,7 +48,7 @@ authController.login = async (req, res) => {
                 }
             }
         );
-
+    // Verificar si el usuario no existe
         if (!user) {
             return res.status(401).json({
                 success: false,
@@ -57,16 +56,16 @@ authController.login = async (req, res) => {
             });
         }
 
-        //Validamos password
-        const isMatch = bcrypt.compareSync(password, user.password); // true      
-
+    // Validar la contraseña
+        const isMatch = bcrypt.compareSync(password, user.password);      
+    // Verificar si la contraseña no coincide
         if (!isMatch) {
             return res.status(401).json({
                 success: false,
                 message: "Invalid email or password"
             });
         }
-
+    // Generar un token de autenticacion utilizando JWT
         const token = jwt.sign(
             { 
                 userId: user.id,
@@ -78,7 +77,7 @@ authController.login = async (req, res) => {
                 expiresIn: '2h' 
             }
         );  
-
+    // Devolver una respuesta con el usuario autenticado y el token
         return res.json(
             {
                 success: true,
@@ -86,6 +85,7 @@ authController.login = async (req, res) => {
                 token: token
             }
         );
+    // Capturar y devolver cualquier error ocurrido durante el inicio de sesion
     } catch (error) {
             console.log(error);
             return res.status(500).json({
@@ -105,52 +105,6 @@ module.exports = authController;
 
 
 
-//Crud User
-// userController.createUser =  async(req, res) => {
-//     try {
-//         const name = req.body.name;
-
-//         //validaciones
-
-//         const newUser = await User.create(
-//             {
-//                 name: name,
-//             }
-//         )
-
-//         return res.json({
-//             success: true,
-//             message: "Create User",
-//             data: newUser
-//         })  
-//     } catch (error) {
-//         return res.status(500).json({
-//             success: false,
-//             message: "Cant Create User"
-//         })
-//     }
-// }
-
-// userController.getAllUser = (req, res) => {
-//     return res.json({
-//         success: true,
-//         message: "Get All User"
-//     })
-// }
-
-// userController.updateUser = (req, res) => {
-//     return res.json({
-//         success: true,
-//         message: "Update User: " + req.params.id
-//     })
-// }
-
-// userController.deleteUser = (req, res) => {
-//     return res.json({
-//         success: true,
-//         message: "delete User: " + req.params.id
-//     })
-// }
 
 
 
