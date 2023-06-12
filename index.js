@@ -14,7 +14,8 @@ return res.send('healthy');
 
 // Configura la ruta para el registro de usuarios
 app.post('/register', authController.register);
-app.post('/login', authController.login);
+app.post('/auth/login', authController.login);
+
 // Conexión a la base de datos y inicio del servidor
 db.then(() => {
 app.listen(PORT, () => {

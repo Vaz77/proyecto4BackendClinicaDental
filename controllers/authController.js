@@ -2,6 +2,9 @@ const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const MIN_PASSWORD_LENGTH = 6;
 const authController = {};
+const jwt = require('jsonwebtoken');
+
+
 
 // Función para registrar un nuevo usuario
 authController.register = async (req, res) => {
@@ -48,24 +51,20 @@ authController.login = async (req, res) => {
         );
 
         if (!user) {
-            return res.json(
-                {
-                    success: true,
-                    message: "Wrong credentials"
-                }
-            )
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            });
         }
 
         //Validamos password
         const isMatch = bcrypt.compareSync(password, user.password); // true      
 
         if (!isMatch) {
-            return res.json(
-                {
-                    success: true,
-                    message: "Wrong credentials"
-                }
-            )
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            });
         }
 
         const token = jwt.sign(
@@ -76,7 +75,7 @@ authController.login = async (req, res) => {
             },
             'secreto',
             {
-                expiresIn: '3h' 
+                expiresIn: '2h' 
             }
         );  
 
@@ -88,15 +87,16 @@ authController.login = async (req, res) => {
             }
         );
     } catch (error) {
-        return res.status(500).json(
-            {
+            console.log(error);
+            return res.status(500).json({
                 success: false,
                 message: "user cant be logged",
-                error: error
-            }
-        )
+                error: error.message
+            });
+        }
+        
     }
-}
+
 
 
 module.exports = authController;
