@@ -1,22 +1,22 @@
-const { user, role } = require('../models');
+const { User } = require('../models');
+const bcrypt = require('bcrypt');
 
-//const bcrypt = require('bcrypt');
-const {Role} = require('../models')
+const MIN_PASSWORD_LENGTH = 6;
+
 const authController = {};
 
-const MIN_PASSWORD_LENGTH = 8;
-
+// Función para registrar un nuevo usuario
 authController.register = async (req, res) => {
 try {
     if (req.body.password.length < MIN_PASSWORD_LENGTH) {
     return res.status(400).json({
-        error: 'Password must be longer than 8 characters',
+        error: 'Password must be longer than 6 characters',
     });
     }
 
-    const newPassword = bcrypt.hashSync(req.body.password, 8);
+    const newPassword = bcrypt.hashSync(req.body.password, 6);
 
-    const newUser = await user.create({
+    const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: newPassword,
@@ -36,32 +36,6 @@ try {
 };
 
 module.exports = authController;
-
-
-
-
-// app.post('/register', async(req, res) => {
-//     try {
-//         if (req.body.password.length < 8) {
-//             return res.send('Password must be longer than 8 characters');
-//         }
-
-//         const newPassword = bcrypt.hashSync(req.body.password, 8);
-
-//         const newUser = await User.create(
-//             {
-//                 name: req.body.name,
-//                 email: req.body.email,
-//                 password: newPassword,
-//                 role_id: 3
-//             }
-//         );
-
-//         return res.send(newUser);
-//     } catch (error) {
-//         return res.send('Something went wrong creating users ' + error.message)
-//     }
-// })
 
 
 

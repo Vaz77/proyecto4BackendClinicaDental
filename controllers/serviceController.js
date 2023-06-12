@@ -1,4 +1,4 @@
-
+/*
 const { Service } = require('../models/service')
 
 const serviceController = {}
@@ -7,7 +7,8 @@ serviceController.createService =  async(req, res) => {
     try {
         const name = req.body.name;
         const price = req.body.price;
-        const isActive = req.body.is_active;
+        const duration = req.body.duration;
+        const user_id = req.body.duration;
 
         //validaciones
 
@@ -53,3 +54,4 @@ serviceController.deleteService = (req, res) => {
     })
 }
 
+*/
