@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('./db');
 const { User } = require('./models');
 const authController = require('./controllers/authController');
-
 const app = express();
 const PORT = 3000;
 
@@ -15,7 +14,7 @@ return res.send('healthy');
 
 // Configura la ruta para el registro de usuarios
 app.post('/register', authController.register);
-
+app.post('/login', authController.login);
 // Conexión a la base de datos y inicio del servidor
 db.then(() => {
 app.listen(PORT, () => {

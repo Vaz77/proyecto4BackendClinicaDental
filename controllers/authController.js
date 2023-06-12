@@ -1,8 +1,6 @@
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
-
 const MIN_PASSWORD_LENGTH = 6;
-
 const authController = {};
 
 // Función para registrar un nuevo usuario
@@ -34,6 +32,72 @@ try {
     });
 }
 };
+
+authController.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        // const email = req.body.email;
+        // const password = req.body.password;
+
+        const user = await User.findOne(
+            {
+                where: {
+                    email: email
+                }
+            }
+        );
+
+        if (!user) {
+            return res.json(
+                {
+                    success: true,
+                    message: "Wrong credentials"
+                }
+            )
+        }
+
+        //Validamos password
+        const isMatch = bcrypt.compareSync(password, user.password); // true      
+
+        if (!isMatch) {
+            return res.json(
+                {
+                    success: true,
+                    message: "Wrong credentials"
+                }
+            )
+        }
+
+        const token = jwt.sign(
+            { 
+                userId: user.id,
+                roleId: user.role_id,
+                email: user.email
+            },
+            'secreto',
+            {
+                expiresIn: '3h' 
+            }
+        );  
+
+        return res.json(
+            {
+                success: true,
+                message: "User Logged",
+                token: token
+            }
+        );
+    } catch (error) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "user cant be logged",
+                error: error
+            }
+        )
+    }
+}
+
 
 module.exports = authController;
 
