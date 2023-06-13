@@ -22,6 +22,7 @@ app.post('/auth/logout', auth, authController.logout);
 
 // Ruta para obtener el perfil del usuario
 app.get('/profile', authMiddleware, userController.getProfile);
+app.put('/profile', authMiddleware, userController.updateProfile);
 
 
 // Conexión a la base de datos y inicio del servidor
