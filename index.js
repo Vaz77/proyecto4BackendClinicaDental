@@ -4,6 +4,8 @@ const { User } = require('./models');
 const authController = require('./controllers/authController');
 const app = express();
 const PORT = 3000;
+//const authMiddleware = require('./middleware/verifyToken');
+const auth = require('./middleware/verifyToken');
 
 app.use(express.json());
 
@@ -12,9 +14,11 @@ app.get('/health', (req, res) => {
 return res.send('healthy');
 });
 
-// Configura la ruta para el registro de usuarios
+// Ruta para el registro de usuarios
 app.post('/register', authController.register);
 app.post('/auth/login', authController.login);
+app.post('/auth/logout', auth, authController.logout);
+
 
 // Conexión a la base de datos y inicio del servidor
 db.then(() => {

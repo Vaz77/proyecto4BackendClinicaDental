@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const MIN_PASSWORD_LENGTH = 6;
 const authController = {};
 const jwt = require('jsonwebtoken');
+const authenticatedTokens = []; // Lista para almacenar los tokens autenticados
+
 
 
 
@@ -97,6 +99,27 @@ authController.login = async (req, res) => {
         
     }
 
+    authController.logout = async (req, res) => {
+        try {
+            const bearerToken = req.headers.authorization;
+            const token = bearerToken.split(" ")[1];
+    
+            // Eliminar el token de la lista de tokens autenticados
+            const index = authenticatedTokens.indexOf(token);
+            if (index !== -1) {
+                authenticatedTokens.splice(index, 1);
+            }
+    
+            res.status(200).json({
+                message: "Logout successful"
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: "Logout failed"
+            });
+        }
+    };
 
 
 module.exports = authController;
