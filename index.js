@@ -4,8 +4,9 @@ const { User } = require('./models');
 const authController = require('./controllers/authController');
 const app = express();
 const PORT = 3000;
-//const authMiddleware = require('./middleware/verifyToken');
+const authMiddleware = require('./middleware/verifyToken');
 const auth = require('./middleware/verifyToken');
+const userController = require('./controllers/userController');
 
 app.use(express.json());
 
@@ -18,6 +19,9 @@ return res.send('healthy');
 app.post('/register', authController.register);
 app.post('/auth/login', authController.login);
 app.post('/auth/logout', auth, authController.logout);
+
+// Ruta para obtener el perfil del usuario
+app.get('/profile', authMiddleware, userController.getProfile);
 
 
 // Conexión a la base de datos y inicio del servidor
