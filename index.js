@@ -7,6 +7,8 @@ const PORT = 3000;
 const authMiddleware = require('./middleware/verifyToken');
 const auth = require('./middleware/verifyToken');
 const userController = require('./controllers/userController');
+const appointmentController = require('./controllers/appointmentController');
+
 
 app.use(express.json());
 
@@ -23,6 +25,11 @@ app.post('/auth/logout', auth, authController.logout);
 // Ruta para obtener el perfil del usuario
 app.get('/profile', authMiddleware, userController.getProfile);
 app.put('/profile', authMiddleware, userController.updateProfile);
+
+//Rutas para creacion, modificacion y cancelacion de citas.
+app.post('/appointments', appointmentController.createAppointment);
+
+
 
 
 // Conexión a la base de datos y inicio del servidor
