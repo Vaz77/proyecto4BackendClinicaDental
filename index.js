@@ -4,6 +4,7 @@ const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
 const appointmentController = require('./controllers/appointmentController');
 const authMiddleware = require('./middleware/verifyToken');
+const isDoctor = require('./middleware/isDoctor');
 const app = express();
 const PORT = 3000;
 
@@ -28,6 +29,7 @@ app.post('/appointments', authMiddleware, appointmentController.createAppointmen
 app.put('/appointments/:appointmentId', authMiddleware, appointmentController.updateAppointment);
 app.delete("/appointments/:appointmentId", authMiddleware, appointmentController.cancelAppointment);
 app.get('/appointments', authMiddleware, appointmentController.getUserAppointments);
+app.get("/appointments", isDoctor, appointmentController.getAllAppointments);
 
 // Conexión a la base de datos y inicio del servidor
 db.then(() => {

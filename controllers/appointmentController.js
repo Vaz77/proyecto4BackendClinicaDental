@@ -109,6 +109,33 @@ const appointmentController = {
       });
     }
   },
+
+  getAllAppointments: async (req, res) => {
+    try {
+      // Obtén todas las citas de la base de datos
+      const allAppointments = await Appointment.findAll();
+      // Verifica si no se encontraron citas
+      if (allAppointments.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No appointments found",
+        });
+      }
+      // Devuelve las citas encontradas en la respuesta
+      return res.json({
+        success: true,
+        message: "Appointments retrieved",
+        data: allAppointments,
+      });
+    } catch (error) {
+      console.error("Error retrieving appointments", error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to retrieve appointments",
+        error: error.message,
+      });
+    }
+  },
 };
 
 module.exports = appointmentController;
