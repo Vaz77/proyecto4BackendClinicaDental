@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const Role = require('./role');
 
 
 

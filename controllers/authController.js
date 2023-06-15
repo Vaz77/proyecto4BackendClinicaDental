@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Role } = require('../models');
 const bcrypt = require('bcrypt');
 const MIN_PASSWORD_LENGTH = 6;
 const authController = {};
@@ -8,36 +8,54 @@ const authenticatedTokens = []; // Lista para almacenar los tokens autenticados
 
 
 
+
 // Funcion para registrar un nuevo usuario
 authController.register = async (req, res) => {
-try {
+    try {
     if (req.body.password.length < MIN_PASSWORD_LENGTH) {
-    return res.status(400).json({
+        return res.status(400).json({
         error: 'Password must be longer than 6 characters',
+        });
+    }
+      // Generar un hash de la contraseña
+    const newPassword = bcrypt.hashSync(req.body.password, 6);
+    let role;
+      // Verificar el tipo de usuario especificado en la solicitud
+    switch (req.body.userType) {
+        case 'admin':
+        role = await Role.findOne({ where: { name: 'Admin' } });
+        break;
+        case 'doctor':
+        role = await Role.findOne({ where: { name: 'Doctor' } });
+        break;
+        case 'patient':
+        role = await Role.findOne({ where: { name: 'Patient' } });
+        break;
+        default:
+        return res.status(400).json({ error: 'Invalid user type' });
+    }
+    if (!role) {
+        return res.status(400).json({ error: 'Invalid user type' });
+    }
+    const newUser = await User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: newPassword,
+        role_id: role.id,
+    });
+    return res.status(201).json({
+        message: 'User created successfully',
+        user: newUser,
+    });
+    } catch (error) {
+      // Capturar y devolver cualquier error ocurrido durante la creación del usuario
+    return res.status(500).json({
+        message: 'Something went wrong creating users',
+        error: error.message,
     });
     }
-    // Generar un hash de la contraseña
-    const newPassword = bcrypt.hashSync(req.body.password, 6);
-
-    const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: newPassword,
-    role_id: 1,
-    });
-
-    return res.status(201).json({
-    message: 'User created successfully',
-    user: newUser,
-    });
-} catch (error) {
-    // Capturar y devolver cualquier error ocurrido durante la creacion del usuario
-    return res.status(500).json({
-    message: 'Something went wrong creating users',
-    error: error.message,
-    });
-}
 };
+
 
 authController.login = async (req, res) => {
     try {

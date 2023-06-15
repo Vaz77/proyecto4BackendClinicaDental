@@ -22,11 +22,9 @@ return queryInterface.bulkInsert("Users", [
       role_id: 3,
       createdAt: new Date(),
       updatedAt: new Date()
-
     }
   ])
   },
-
   async down (queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
