@@ -23,6 +23,7 @@ app.post('/auth/logout', authMiddleware, authController.logout);
 // Ruta para obtener el perfil del usuario
 app.get('/profile', authMiddleware, userController.getProfile);
 app.put('/profile', authMiddleware, userController.updateProfile);
+app.get('/clients', userController.getAllClients);
 
 // Rutas para creación, modificación y cancelación de citas
 app.post('/appointments', authMiddleware, appointmentController.createAppointment);

@@ -66,5 +66,25 @@ userController.updateProfile = async (req, res) => {
   }
 };
 
+// Obtener todos los clientes registrados
+userController.getAllClients = async (req, res) => {
+  try {
+    const clients = await User.findAll({ where: { role_id: 3 } });
+
+    return res.json({
+      success: true,
+      message: 'Clients retrieved',
+      data: clients,
+    });
+  } catch (error) {
+    console.error('Error retrieving clients', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve clients',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = userController;
 
