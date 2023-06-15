@@ -1,7 +1,6 @@
-const { Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
-
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize) => {
   class Appointment extends Model {
     static associate(models) {
       Appointment.belongsTo(models.User, {
@@ -22,8 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     service_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Appointment',
   });
+
+  Appointment.modelName = 'Appointment';
 
   return Appointment;
 };

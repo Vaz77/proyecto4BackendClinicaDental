@@ -5,31 +5,28 @@ const auth = (req, res, next) => {
         // Obtener el token
         const bearerToken = req.headers.authorization;
         // Verificar si no se proporcionó un token 
-        if(!bearerToken) {
-            return res.json(
-                {
-                    success: true,
-                    message: "no puedes pasar"
-                }
-            )
+        if (!bearerToken) {
+            return res.status(401).json({
+                success: false,
+                message: "Authorization token is missing"
+            });
         }
-        // Extraer el token de autorizacion (eliminar el prefijo "Bearer")
-        const token = bearerToken.split(" ")[1];         
+        // Extraer el token de autorización (eliminar el prefijo "Bearer")
+        const token = bearerToken.split(" ")[1];
         // Verificar y decodificar el token utilizando jwt
         const decoded = jwt.verify(token, 'secreto');
-        // Almacenar los datos del usuario extraidos del token
+        // Almacenar los datos del usuario extraídos del token
         req.userId = decoded.userId;
         req.roleId = decoded.roleId;
-        
+
         next();
     } catch (error) {
         return res.status(401).json({
             success: false,
             message: "Invalid token",
-            error: error
+            error: error.message
         });
     }
-
 }
 
 module.exports = auth;

@@ -1,5 +1,6 @@
 const { Appointment } = require("../models");
 
+
 const appointmentController = {
   createAppointment: async (req, res) => {
     try {
@@ -60,13 +61,13 @@ const appointmentController = {
         return res.status(404).json({ error: "Appointment not found" });
       }
 
-      // Verificar que la cita pertenezca al usuario
-      if (appointment.user_id !== req.user.id) {
+      /* Verificar que la cita pertenezca al usuario
+      if (appointment.user_id !== req.user_id) {
         return res
           .status(403)
           .json({ error: "You are not authorized to cancel this appointment" });
       }
-
+      */
       // Elimina la cita de la base de datos
       await appointment.destroy();
       return res.status(200).json({
@@ -75,6 +76,37 @@ const appointmentController = {
     } catch (error) {
       console.error("Error canceling appointment", error);
       return res.status(500).json({ error: "Failed to cancel appointment" });
+    }
+  },
+
+  getUserAppointments: async (req, res) => {
+    try {
+      const { userId } = req;
+  
+      if (!userId) {
+        return res.status(400).json({
+          success: false,
+          message: "User ID is missing or invalid",
+        });
+      }
+  
+      const getAllAppointments = await Appointment.findAll({
+        where: {
+          user_id: userId,
+        },
+      });
+  
+      return res.json({
+        success: true,
+        message: "Appointments retrieved",
+        data: getAllAppointments,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Appointments cannot be retrieved",
+        error: error.message,
+      });
     }
   },
 };
