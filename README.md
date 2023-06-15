@@ -9,7 +9,6 @@
     <li><a href="#instalación-en-local">Instalación en local</a></li>
     <li><a href="#endpoints">Endpoints</a></li>
     <li><a href="#contribuciones">Contribuciones</a></li>
-    <li><a href="#contacto">Contacto</a></li>
   </ol>
 </details>
 
