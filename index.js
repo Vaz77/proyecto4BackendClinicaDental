@@ -29,6 +29,7 @@ app.put('/profile', authMiddleware, userController.updateProfile);
 //Rutas para creacion, modificacion y cancelacion de citas.
 app.post('/appointments', appointmentController.createAppointment);
 app.put('/appointments/:appointmentId', appointmentController.updateAppointment);
+app.delete("/appointments/:appointmentId", appointmentController.cancelAppointment);
 
 
 
