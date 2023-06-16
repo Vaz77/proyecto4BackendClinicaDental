@@ -2,7 +2,6 @@
 <details>
   <summary>Contenido 📝</summary>
   <ol>
-    <li><a href="#objetivo">Objetivo</a></li>
     <li><a href="#sobre-el-proyecto">Sobre el proyecto</a></li>
     <li><a href="#diagrama-er">Diagrama Entidad Relación</a></li>
     <li><a href="#tecnologías-utilizadas">Stack - Tecnologías utilizadas</a></li>
@@ -11,9 +10,6 @@
     <li><a href="#contribuciones">Contribuciones</a></li>
   </ol>
 </details>
-
-## Objetivo
-Este proyecto requería una API funcional conectada a una base de datos con al menos una relación de uno a muchos y una relación de muchos a muchos.
 
 ## Sobre el proyecto
 Esta API ha sido desarrollada por **Jesús Vázquez Muñoz**, como cuarto proyecto del **Bootcamp de Full Stack Developer de Geekshubs Academy**, el cuál se basa en el diseño del backend de una aplicación. El cuál es totalmente funcional y se puede realizar consultas mediante POSTMAN.
