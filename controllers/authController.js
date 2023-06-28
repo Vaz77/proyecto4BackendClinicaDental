@@ -119,15 +119,13 @@ authController.login = async (req, res) => {
 
     authController.logout = async (req, res) => {
         try {
-            const bearerToken = req.headers.authorization;
-            const token = bearerToken.split(" ")[1];
-    
+            const bearerToken = req.headers.authorization; //Obtiene el token
+            const token = bearerToken.split(" ")[1]; //Divide el token para extraer el bearer token
             // Eliminar el token de la lista de tokens autenticados
-            const index = authenticatedTokens.indexOf(token);
+            const index = authenticatedTokens.indexOf(token); //Busca el indice del token en la lista de tokens autenticados
             if (index !== -1) {
-                authenticatedTokens.splice(index, 1);
+                authenticatedTokens.splice(index, 1); //Elimina el token de la lista utilizando splice
             }
-    
             res.status(200).json({
                 message: "Logout successful"
             });

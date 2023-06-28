@@ -1,13 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 const db = require('./db');
+const app = express();
 const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
 const appointmentController = require('./controllers/appointmentController');
 const authMiddleware = require('./middleware/verifyToken');
 const isDoctor = require('./middleware/isDoctor');
-const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 // Ruta de prueba para verificar el estado del servidor
