@@ -12,6 +12,19 @@ userController.getProfile = async (req, res) => {
         message: 'User not found'
       });
     }
+/*
+    //Verificar si el usuario tiene un token válido
+    const bearerToken = req.headers.authorization;
+    const token = bearerToken.split(" ")[1];
+    jwt.verify(token, 'secreto', (err) => {
+      if (err) {
+        return res.status(401).json({
+          succes: false,
+          message: 'Invalid Token'
+        });
+      }
+    })
+*/
     return res.json({
       name: user.name,
       surname: user.surname,

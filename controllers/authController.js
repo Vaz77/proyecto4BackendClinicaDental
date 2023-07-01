@@ -39,8 +39,10 @@ authController.register = async (req, res) => {
     }
     const newUser = await User.create({
         name: req.body.name,
+        surname: req.body.surname,
         email: req.body.email,
         password: newPassword,
+        phone: req.body.phone,
         role_id: role.id,
     });
     return res.status(201).json({

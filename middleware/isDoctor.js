@@ -1,6 +1,6 @@
 const isDoctor = async (req, res, next) => {
     try {
-    if (req.roleId === 3) {
+    if (req.roleId === 2) {
         next();
     } else {
         return res.status(403).json({

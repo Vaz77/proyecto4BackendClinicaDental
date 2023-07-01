@@ -24,7 +24,6 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         required: true,
-        //revisar tiempo
       },
       phone: {
         type: Sequelize.STRING
