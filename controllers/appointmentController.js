@@ -1,19 +1,22 @@
-const { Appointment } = require("../models");
+const { Appointment, Service } = require("../models");
 
 
 const appointmentController = {
   createAppointment: async (req, res) => {
     try {
-      const { time, date, observations, userId, serviceId } = req.body;
+      const { time, date, observations, serviceName } = req.body;
+      // console.log(time, date, observations, serviceName)
 
       // Realiza las validaciones necesarias en los datos recibidos
+      const service = await Service.findOne({ where: { name: serviceName } });
+      if(!service) throw new Error(`Not found service with name ${serviceName}`)
 
       const newAppointment = await Appointment.create({
         time,
         date,
         observations,
-        user_id: userId,
-        service_id: serviceId,
+        user_id: req.userId,
+        service_id: service.id,
       });
 
       // Devuelve la nueva cita creada en la respuesta
@@ -21,7 +24,7 @@ const appointmentController = {
     } catch (error) {
       // Maneja cualquier error y devuelve la respuesta de error correspondiente
       console.error("Error creating appointment:", error);
-      return res.status(500).json({ error: "Failed to create appointment" });
+      return res.status(500).json({ error: error.message });
     }
   },
 
