@@ -31,7 +31,7 @@ app.get('/clients', userController.getAllClients);
 app.post('/appointments', authMiddleware, appointmentController.createAppointment);
 app.put('/appointments/:appointmentId', authMiddleware, appointmentController.updateAppointment);
 app.delete("/appointments/:appointmentId", authMiddleware, appointmentController.cancelAppointment);
-app.get('/appointments', authMiddleware, appointmentController.getUserAppointments);
+app.get('/appointments/user', authMiddleware, appointmentController.getUserAppointments);
 app.get("/appointments", isDoctor, appointmentController.getAllAppointments);
 
 // Conexión a la base de datos y inicio del servidor
