@@ -6,9 +6,6 @@ const jwt = require('jsonwebtoken');
 const authenticatedTokens = []; // Lista para almacenar los tokens autenticados
 
 
-
-
-
 // Funcion para registrar un nuevo usuario
 authController.register = async (req, res) => {
     try {

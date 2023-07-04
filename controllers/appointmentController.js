@@ -92,13 +92,12 @@ const appointmentController = {
           message: "User ID is missing or invalid",
         });
       }
-  
+      
       const getAllAppointments = await Appointment.findAll({
         where: {
           user_id: userId,
         },
       });
-  
       return res.json({
         success: true,
         message: "Appointments retrieved",
@@ -115,7 +114,7 @@ const appointmentController = {
 
   getAllAppointments: async (req, res) => {
     try {
-      // Obtén todas las citas de la base de datos
+      
       const allAppointments = await Appointment.findAll();
       // Verifica si no se encontraron citas
       if (allAppointments.length === 0) {
