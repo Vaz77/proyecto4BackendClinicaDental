@@ -1,9 +1,7 @@
 const isDoctor = async (req, res, next) => {
   try {
-    console.log('................');
-    console.log(req.user.roleId);
 
-    if (req.user.roleId === 2) {
+    if (req.roleId === 2) {
       next();
     } else {
       return res.status(403).json({
@@ -12,6 +10,7 @@ const isDoctor = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       success: false,
       message: 'Something went wrong',

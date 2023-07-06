@@ -1,6 +1,6 @@
 const isAdmin = async (req, res, next) => {
     try {
-    if (req.roleId === 1 || req.roleId === 2) {
+    if (req.roleId === 1) {
         next();
     } else {
         return res.status(403).json({

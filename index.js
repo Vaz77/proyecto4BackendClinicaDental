@@ -7,6 +7,7 @@ const userController = require('./controllers/userController');
 const appointmentController = require('./controllers/appointmentController');
 const authMiddleware = require('./middleware/verifyToken');
 const isDoctor = require('./middleware/isDoctor');
+const isAdmin = require('./middleware/isAdmin');
 const PORT = 3000;
 
 app.use(cors());
@@ -25,14 +26,14 @@ app.post('/auth/logout', authMiddleware, authController.logout);
 // Ruta para obtener el perfil del usuario
 app.get('/profile', authMiddleware, userController.getProfile);
 app.put('/profile', authMiddleware, userController.updateProfile);
-app.get('/clients', userController.getAllClients);
+app.get('/clients', authMiddleware, isAdmin, userController.getAllClients);
 
 // Rutas para creación, modificación y cancelación de citas
 app.post('/appointments', authMiddleware, appointmentController.createAppointment);
 app.put('/appointments/:appointmentId', authMiddleware, appointmentController.updateAppointment);
 app.delete("/appointments/:appointmentId", authMiddleware, appointmentController.cancelAppointment);
 app.get('/appointments/user', authMiddleware, appointmentController.getUserAppointments);
-app.get("/appointments/all", appointmentController.getAllAppointments);
+app.get("/appointments/all", authMiddleware, isDoctor, appointmentController.getAllAppointments);
 
 // Conexión a la base de datos y inicio del servidor
 db.then(() => {
