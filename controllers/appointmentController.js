@@ -85,32 +85,40 @@ const appointmentController = {
   getUserAppointments: async (req, res) => {
     try {
       const { userId } = req;
+      const { searchTreatment } = req.query; // Obtén el valor del parámetro de búsqueda
   
       if (!userId) {
         return res.status(400).json({
           success: false,
-          message: "User ID is missing or invalid",
+          message: 'User ID is missing or invalid',
         });
       }
-      
+  
+      // Construye el objeto de consulta para la base de datos
+      const whereCondition = { user_id: userId };
+      if (searchTreatment) {
+        whereCondition.serviceName = searchTreatment;
+      }
+  
       const getAllAppointments = await Appointment.findAll({
-        where: {
-          user_id: userId,
-        },
+        where: whereCondition,
       });
+  
       return res.json({
         success: true,
-        message: "Appointments retrieved",
+        message: 'Appointments retrieved',
         data: getAllAppointments,
       });
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "Appointments cannot be retrieved",
+        message: 'Appointments cannot be retrieved',
         error: error.message,
       });
     }
   },
+  
+
 
   getAllAppointments: async (req, res) => {
     try {
