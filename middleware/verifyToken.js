@@ -21,7 +21,7 @@ const auth = (req, res, next) => {
 
     // Almacenar los datos del usuario extraídos del token
     req.userId = decoded.userId;
-    req.roleId = decoded.roleId; // Corregido: cambiar "req.role_Id" a "req.roleId"
+    req.roleId = decoded.roleId; 
 
     next();
   } catch (error) {

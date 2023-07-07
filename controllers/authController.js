@@ -102,7 +102,7 @@ authController.login = async (req, res) => {
             {
                 success: true,
                 message: "User Logged",
-                token: token
+                token: token,
             }
         );
     // Capturar y devolver cualquier error ocurrido durante el inicio de sesion
