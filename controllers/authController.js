@@ -87,6 +87,7 @@ authController.login = async (req, res) => {
     // Generar un token de autenticacion utilizando JWT
         const token = jwt.sign(
             { 
+                name: user.name,
                 userId: user.id,
                 roleId: user.role_id,
                 email: user.email
